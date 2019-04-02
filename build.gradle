@@ -1,0 +1,25 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.3.RELEASE'
+    id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.xinaml'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+configurations {  //过滤spring boot 自带的日志 logback
+    compile.exclude module: 'spring-boot-starter-logging'
+}
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.56'
+    compile('org.springframework.boot:spring-boot-starter-log4j2')
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+}
