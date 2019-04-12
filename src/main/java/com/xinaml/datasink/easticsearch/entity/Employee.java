@@ -1,4 +1,4 @@
-package com.xinaml.datasink.entity;
+package com.xinaml.datasink.easticsearch.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -17,7 +17,7 @@ import java.io.Serializable;
  * 2.主键注解：@Id (相当于Hibernate实体的主键@Id注解)(必写)
  * 只是一个标识，并没有属性。
  *
- * 3.属性注解 @Field (相当于Hibernate实体的@Column注解)
+ * 3.属性注解 @Data (相当于Hibernate实体的@Column注解)
  * @Field默认是可以不加的，默认所有属性都会添加到ES中。加上@Field之后，
  * @document默认把所有字段加上索引失效，只有加@Field 才会被索引(同时也看设置索引的属性是否为no)
  *
@@ -30,12 +30,12 @@ import java.io.Serializable;
  * String[]	ignoreFields	{}	如果某个字段需要被忽略
  *
  */
-@Document(indexName = "datasink",type = "employee", shards = 1,replicas = 0, refreshInterval = "-1")
+    @Document(indexName = "datasink",type = "employee", shards = 1,replicas = 0, refreshInterval = "-1")
 public class Employee implements Serializable {
     @Id
     private String id;
     @Field( searchAnalyzer = "ik_smart", analyzer = "ik_smart")
-//    @Field(searchAnalyzer = "ik_max_word", analyzer = "ik_smart")
+//    @Data(searchAnalyzer = "ik_max_word", analyzer = "ik_smart")
     private String name;
     @Field
     private Integer age = 0;

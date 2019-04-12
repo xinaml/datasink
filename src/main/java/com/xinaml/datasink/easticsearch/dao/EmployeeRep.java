@@ -1,6 +1,6 @@
-package com.xinaml.datasink.dao;
+package com.xinaml.datasink.easticsearch.dao;
 
-import com.xinaml.datasink.entity.Employee;
+import com.xinaml.datasink.easticsearch.entity.Employee;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Component;
 

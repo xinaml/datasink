@@ -1,7 +1,7 @@
-package com.xinaml.datasink.service;
+package com.xinaml.datasink.easticsearch.service;
 
-import com.xinaml.datasink.dao.EmployeeRep;
-import com.xinaml.datasink.entity.Employee;
+import com.xinaml.datasink.easticsearch.dao.EmployeeRep;
+import com.xinaml.datasink.easticsearch.entity.Employee;
 import org.elasticsearch.index.query.DisMaxQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;

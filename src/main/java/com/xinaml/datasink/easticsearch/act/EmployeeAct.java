@@ -1,8 +1,8 @@
-package com.xinaml.datasink.act;
+package com.xinaml.datasink.easticsearch.act;
 
-import com.xinaml.datasink.dao.EmployeeRep;
-import com.xinaml.datasink.entity.Employee;
-import com.xinaml.datasink.service.EmployeeSer;
+import com.xinaml.datasink.easticsearch.dao.EmployeeRep;
+import com.xinaml.datasink.easticsearch.entity.Employee;
+import com.xinaml.datasink.easticsearch.service.EmployeeSer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
