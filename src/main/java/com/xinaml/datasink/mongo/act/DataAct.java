@@ -63,13 +63,24 @@ public class DataAct extends BaseAct {
     public ActResult list(@RequestParam String tableId) throws ActException {
         try {
             Table table = tableSer.findById(tableId);
-            Query query = new Query(Criteria.where("氧气").is("7"));
+            Query query = new Query(Criteria.where("createDate").exists(true));
             List<JSONObject> objects = mongoTemplate.find(query, JSONObject.class, "data_" + table.getName());
             for (Iterator<JSONObject> it = objects.iterator(); it.hasNext(); ) {
                 JSONObject obj = it.next();
                 obj.remove("_id");
             }
             return new ActResult(objects);
+        } catch (SerException e) {
+            throw new ActException(e.getMessage());
+        }
+    }
+    @GetMapping("del")
+    public ActResult del(@RequestParam String tableId,String id) throws ActException {
+        try {
+            Table table = tableSer.findById(tableId);
+            Query query = new Query(Criteria.where("id").is(id));
+            mongoTemplate.remove(query,"data_" + table.getName());
+            return new ActResult(SUCCESS);
         } catch (SerException e) {
             throw new ActException(e.getMessage());
         }
