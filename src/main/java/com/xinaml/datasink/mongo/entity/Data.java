@@ -9,20 +9,20 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Data implements Serializable {
     private String name;
-    private String val;
+    private Object val;
     private FieldType type;
 
     public Data() {
 
     }
 
-    public Data(String name, String val, FieldType type) {
+    public Data(String name, Object val, FieldType type) {
         this.name = name;
         this.val = val;
         this.type = type;
     }
 
-    public Data(String name, String val) {
+    public Data(String name, Object val) {
         this.name = name;
         this.val = val;
         this.type = FieldType.STRING;
@@ -36,11 +36,11 @@ public class Data implements Serializable {
         this.name = name;
     }
 
-    public String getVal() {
+    public Object getVal() {
         return val;
     }
 
-    public void setVal(String val) {
+    public void setVal(Object val) {
         this.val = val;
     }
 

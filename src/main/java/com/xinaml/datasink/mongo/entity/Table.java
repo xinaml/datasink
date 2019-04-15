@@ -15,6 +15,7 @@ public class Table implements Serializable {
     private String name;
     private LocalDateTime createTime;
     private List<FieldConf> fields;
+    private Double age=11.0;
 
     public String getName() {
         return name;
@@ -46,5 +47,13 @@ public class Table implements Serializable {
 
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+
+    public Double getAge() {
+        return age;
+    }
+
+    public void setAge(Double age) {
+        this.age = age;
     }
 }

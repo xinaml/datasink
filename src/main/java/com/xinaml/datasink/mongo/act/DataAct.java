@@ -13,6 +13,8 @@ import com.xinaml.datasink.mongo.entity.Table;
 import com.xinaml.datasink.mongo.ser.TableSer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
 
 /**
  * @Author: [lgq]
@@ -48,7 +52,7 @@ public class DataAct extends BaseAct {
             Table table = tableSer.findById(tableId);
             List<Data> datas = new ArrayList<>();
             for (FieldConf conf : table.getFields()) {
-                Data data = new Data(conf.getName(), "7");
+                Data data = new Data(conf.getName(), 9.7,conf.getType());
                 datas.add(data);
             }
             Object o = BeanUtil.createObj(datas);
@@ -74,13 +78,32 @@ public class DataAct extends BaseAct {
             throw new ActException(e.getMessage());
         }
     }
+
     @GetMapping("del")
-    public ActResult del(@RequestParam String tableId,String id) throws ActException {
+    public ActResult del(@RequestParam String tableId, String id) throws ActException {
         try {
             Table table = tableSer.findById(tableId);
             Query query = new Query(Criteria.where("id").is(id));
-            mongoTemplate.remove(query,"data_" + table.getName());
+            mongoTemplate.remove(query, "data_" + table.getName());
             return new ActResult(SUCCESS);
+        } catch (SerException e) {
+            throw new ActException(e.getMessage());
+        }
+    }
+
+    @GetMapping("count")
+    public ActResult count(@RequestParam String tableId, String name) throws ActException {
+        try {
+            Table table = tableSer.findById(tableId);
+            Aggregation aggregation = Aggregation.newAggregation(
+//                    match(Criteria.where(name).is(9.3)),
+                    Aggregation.group(name).sum(name).as(name)
+
+            );
+
+            AggregationResults<JSONObject> outputTypeCount1 =
+                    mongoTemplate.aggregate(aggregation, "data_" + table.getName(), JSONObject.class);
+            return new ActResult(outputTypeCount1.getMappedResults());
         } catch (SerException e) {
             throw new ActException(e.getMessage());
         }
