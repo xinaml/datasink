@@ -8,10 +8,7 @@ import org.springframework.cglib.beans.BeanMap;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public final class BeanUtil {
 
@@ -350,14 +347,15 @@ public final class BeanUtil {
         try {
             BeanGenerator generator = new BeanGenerator();
             generator.addProperty("id", String.class);
-            generator.addProperty("createDate", String.class);
+            generator.addProperty("createTime", Date.class);
             for (Data data : datas) {
                 generator.addProperty(data.getName(), Class.forName(data.getType().getCode()));
             }
             Object object = generator.create();
             BeanMap beanMap = BeanMap.create(object);
             beanMap.put("id", UUID.randomUUID().toString());
-            beanMap.put("createDate", DateUtil.dateToString(LocalDateTime.now()));
+            LocalDateTime now = LocalDateTime.now().plusHours(8);
+            beanMap.put("createTime", DateUtil.toDate(now));
             for (Data data : datas) {
                 beanMap.put(data.getName(), data.getVal());
             }

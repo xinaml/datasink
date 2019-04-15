@@ -45,7 +45,17 @@ public final class DateUtil {
         return LocalTime.parse(time, TIME);
     }
 
-
+    /**
+     * 时间转换
+     *
+     * @param time
+     * @return
+     */
+    public static Date toDate(LocalDateTime time) {
+        ZoneId zone = ZoneId.systemDefault();
+        Instant instant = time.atZone(zone).toInstant();
+        return Date.from(instant);
+    }
     /**
      * 日期时间转相应字符串
      *

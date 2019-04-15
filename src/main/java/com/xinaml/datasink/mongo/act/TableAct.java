@@ -28,7 +28,7 @@ public class TableAct extends BaseAct {
             Table table = new Table();
             table.setId(UUID.randomUUID().toString());
             table.setName("monitor_data");
-            table.setCreateTime(LocalDateTime.now().minusDays(1));
+            table.setCreateTime(LocalDateTime.now().plusHours(8));
             tableSer.save(table);
             return new ActResult((Object) table.getId());
         } catch (SerException e) {
