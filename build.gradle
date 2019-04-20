@@ -16,13 +16,14 @@ configurations {  //过滤spring boot 自带的日志 logback
     compile.exclude module: 'spring-boot-starter-logging'
 }
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile ('org.springframework.boot:spring-boot-starter-data-elasticsearch')
     compile group: 'com.alibaba', name: 'fastjson', version: '1.2.56'
     compile('org.springframework.boot:spring-boot-starter-log4j2')
     compile('org.springframework.boot:spring-boot-starter-data-mongodb')
-    compile group: 'com.spring4all', name: 'mongodb-plus-spring-boot-starter', version: '1.0.0.RELEASE'
+    compile group: 'com.spring4all', name: 'mongodb-plus-spring-boot-starter', version: '1.0.0.RELEASE'//mongo连接池
     compile('org.springframework.boot:spring-boot-devtools')
+    compile group: 'io.netty', name: 'netty-all', version: '4.1.13.Final'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
