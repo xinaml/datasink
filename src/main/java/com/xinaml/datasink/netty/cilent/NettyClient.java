@@ -2,18 +2,13 @@ package com.xinaml.datasink.netty.cilent;
 
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
-import io.netty.handler.timeout.ReadTimeoutHandler;
 
-import java.net.InetSocketAddress;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * @Author: [lgq]
@@ -22,51 +17,45 @@ import java.net.InetSocketAddress;
  * @Version: [1.0.0]
  */
 public class NettyClient {
+    private String host;
+    private int port;
 
+    public NettyClient(String host, int port) {
+        this.host = host;
+        this.port = port;
+    }
 
-    public static void main(String[] args) {
-        //worker负责读写数据
-        EventLoopGroup worker = new NioEventLoopGroup();
-        ChannelFuture futrue = null;
+    public void run() throws IOException {
+        EventLoopGroup worker = new NioEventLoopGroup();  //设置一个worker线程，使用
+        Bootstrap bootstrap = new Bootstrap();
+        bootstrap.group(worker);
+        bootstrap.channel(NioSocketChannel.class); //指定所使用的 NIO 传输 Channel
+        bootstrap.handler(new ClientInitializerHandler());//处理器
+
         try {
-            //辅助启动类
-            Bootstrap bootstrap = new Bootstrap();
-
-            //设置线程池
-            bootstrap.group(worker);
-
-            //设置socket工厂
-            bootstrap.channel(NioSocketChannel.class);
-
-            //设置管道
-            bootstrap.handler(new ChannelInitializer<SocketChannel>() {
-                @Override
-                protected void initChannel(SocketChannel socketChannel) throws Exception {
-                    //获取管道
-                    ChannelPipeline pipeline = socketChannel.pipeline();
-                    //字符串解码器
-                    pipeline.addLast(new StringDecoder());
-                    //字符串编码器
-                    pipeline.addLast(new StringEncoder());
-                    //处理类
-                    pipeline.addLast(new ClientHandler());
-                    pipeline.addLast(new ReadTimeoutHandler(60));//设置超时时间
-
+            //使用指定的 端口设置套 接字地址
+            Channel channel = bootstrap.connect(host, port).sync().channel();
+            while (true) {
+                //向服务端发送内容
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(System.in));
+                String input = reader.readLine();
+                if (input != null) {
+                    if ("quit".equals(input)) {
+                        System.exit(1);
+                    }
+                    channel.writeAndFlush(input);
                 }
-            });
-
-            //发起异步连接操作
-             futrue = bootstrap.connect(new InetSocketAddress("127.0.0.1", 7000)).sync();
-            //等待客户端链路关闭
-        } catch (InterruptedException e) {
-            //优雅的退出，释放NIO线程组
-            worker.shutdownGracefully();
-            try {
-                futrue.channel().closeFuture().sync();
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
             }
+        } catch (InterruptedException e) {
             e.printStackTrace();
+//            worker.shutdownGracefully().sync();
+            System.exit(1);
         }
+    }
+
+
+    public static void main(String[] args)throws Exception {
+        new NettyClient("127.0.0.1",7000).run();
     }
 }

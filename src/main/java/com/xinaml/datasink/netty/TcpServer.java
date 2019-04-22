@@ -19,7 +19,7 @@ import java.net.InetSocketAddress;
 public class TcpServer {
     @Autowired
     @Qualifier("serverBootstrap")
-    private ServerBootstrap b;
+    private ServerBootstrap serverBootstrap;
 
     @Autowired
     @Qualifier("tcpSocketAddress")
@@ -30,7 +30,7 @@ public class TcpServer {
     @PostConstruct
     public void start() throws Exception {
         System.out.println("starting server at " + tcpPort);
-        serverChannelFuture = b.bind(tcpPort).sync();
+        serverChannelFuture = serverBootstrap.bind(tcpPort).sync();
     }
 
     @PreDestroy
@@ -38,12 +38,12 @@ public class TcpServer {
         serverChannelFuture.channel().closeFuture().sync();
     }
 
-    public ServerBootstrap getB() {
-        return b;
+    public ServerBootstrap getServerBootstrap() {
+        return serverBootstrap;
     }
 
-    public void setB(ServerBootstrap b) {
-        this.b = b;
+    public void setServerBootstrap(ServerBootstrap serverBootstrap) {
+        this.serverBootstrap = serverBootstrap;
     }
 
     public InetSocketAddress getTcpPort() {

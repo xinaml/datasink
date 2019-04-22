@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @Version: [1.0.0]
  */
 @Component
-public class ChannelHandler extends ChannelInitializer<SocketChannel> {
+public class ServerInitializerHandler extends ChannelInitializer<SocketChannel> {
     @Autowired
     StringDecoder stringDecoder;
 
@@ -29,7 +29,7 @@ public class ChannelHandler extends ChannelInitializer<SocketChannel> {
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast("decoder", stringDecoder);
-        pipeline.addLast("handler", serverHandler);
+        pipeline.addLast("handler", serverHandler);//为处理accept客户端的channel中的pipeline添加自定义处理函数
         pipeline.addLast("encoder", stringEncoder);
     }
 

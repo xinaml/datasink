@@ -1,6 +1,6 @@
 package com.xinaml.datasink.netty.config;
 
-import com.xinaml.datasink.netty.ChannelHandler;
+import com.xinaml.datasink.netty.ServerInitializerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -43,7 +43,7 @@ public class NettyConfig {
     private int backlog;
 
     @Autowired
-    private ChannelHandler channelHandler;
+    private ServerInitializerHandler serverInitializerHandler;
 
     //bootstrap配置
     @SuppressWarnings("unchecked")
@@ -52,7 +52,7 @@ public class NettyConfig {
         ServerBootstrap b = new ServerBootstrap();
         b.group(bossGroup(), workerGroup())
                 .channel(NioServerSocketChannel.class)
-                .childHandler(channelHandler);
+                .childHandler(serverInitializerHandler);
         Map<ChannelOption<?>, Object> tcpChannelOptions = tcpChannelOptions();
         Set<ChannelOption<?>> keySet = tcpChannelOptions.keySet();
         for (@SuppressWarnings("rawtypes")

@@ -22,21 +22,16 @@ public class SocketClient {
             while (!readline.equals("bye")) {
                 os.println(readline);
                 os.flush();
-                System.out.println("Client send:" + readline);
-                System.out.println("return:" + is.readLine());
+                System.out.println("客户端发送的数据包:" + readline);
+                System.out.println("客户端接收的数据包:" + is.readLine());
                 readline = sin.readLine(); //等待输入
 
             } //继续循环
-
             os.close();
-
             is.close();
-
             socket.close();
-
         } catch (Exception e) {
-
-            System.out.println("Error" + e); //出错，则打印出错信息
+            System.out.println("异常：" + e); //出错，则打印出错信息
 
         }
 
