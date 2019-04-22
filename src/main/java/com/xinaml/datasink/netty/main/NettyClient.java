@@ -1,6 +1,7 @@
-package com.xinaml.datasink.netty.cilent;
+package com.xinaml.datasink.netty.main;
 
 
+import com.xinaml.datasink.netty.cilent.ClientInitializerHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;

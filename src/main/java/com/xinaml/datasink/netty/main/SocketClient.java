@@ -1,4 +1,4 @@
-package com.xinaml.datasink.netty.cilent;
+package com.xinaml.datasink.netty.main;
 import java.io.*;
 import java.net.*;
 /**

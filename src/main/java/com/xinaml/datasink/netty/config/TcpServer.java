@@ -1,4 +1,4 @@
-package com.xinaml.datasink.netty;
+package com.xinaml.datasink.netty.config;
 
 import org.springframework.stereotype.Component;
 import io.netty.bootstrap.ServerBootstrap;

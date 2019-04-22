@@ -1,4 +1,4 @@
-package com.xinaml.datasink.netty;
+package com.xinaml.datasink.netty.server;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;

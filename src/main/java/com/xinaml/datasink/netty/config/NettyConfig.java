@@ -1,6 +1,6 @@
 package com.xinaml.datasink.netty.config;
 
-import com.xinaml.datasink.netty.ServerInitializerHandler;
+import com.xinaml.datasink.netty.server.ServerInitializerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
